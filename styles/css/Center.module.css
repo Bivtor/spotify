@@ -1,0 +1,23 @@
+.center {
+  margin-top: 50px;
+}
+.center .smallheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.center .smallheader .button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}
+.center .smallheader .disnify {
+  color: black;
+}

@@ -1,0 +1,25 @@
+.center {
+  margin-top: 50px;
+  .smallheader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    .button {
+      //remove button style
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+      border: 2px solid black;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .disnify {
+      color: black;
+    }
+  }
+}
