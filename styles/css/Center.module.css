@@ -1,23 +1,31 @@
 .center {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .center .smallheader {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
 }
 .center .smallheader .button {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
+  color: black;
+}
+.center .smallheader .button:hover {
   cursor: pointer;
-  outline: inherit;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px;
+  color: red;
 }
 .center .smallheader .disnify {
   color: black;
+}
+.center .smallheader .profileimage img {
+  border-radius: 75px;
+  width: 100px;
+  height: 100px;
+}
+.center .tracklist {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }

@@ -1,25 +1,37 @@
 .center {
-  margin-top: 50px;
+  margin-top: 30px;
   .smallheader {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
     .button {
-      //remove button style
-      background: none;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
+      color: black;
+    }
+    .button:hover {
       cursor: pointer;
-      outline: inherit;
-      border: 2px solid black;
-      border-radius: 5px;
-      padding: 10px;
+      color: red;
     }
 
     .disnify {
       color: black;
     }
+    .profileimage {
+      // display: flex;
+      // justify-content: center;
+      img {
+        border-radius: 75px;
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
+  .tracklist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }

@@ -1,10 +1,9 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import styles from '../styles/css/Home.module.css'
-import Center from '../components/Center'
+import Head from "next/head";
+import styles from "../styles/css/Home.module.css";
+import Center from "../components/Center";
+import { NextPage } from "next";
 
 const Home: NextPage = () => {
-
   return (
     <div className={styles.container}>
       <Head>
@@ -15,8 +14,8 @@ const Home: NextPage = () => {
       <Center />
 
       <main />
-    </div >
-  )
-}
+    </div>
+  );
+};
 
 export default Home;
