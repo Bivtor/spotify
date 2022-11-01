@@ -5,6 +5,9 @@ import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
 
 export default function Center() {
+  const [showResults, setShowResults] = useState<boolean>(false)
+  const [genres, setGenres] = useState<string[]>([])
+
   const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
   const [tracks, setTracks] = useState<SpotifyApi.TrackObjectFull[]>([]);
@@ -16,7 +19,7 @@ export default function Center() {
         setTracks(data.body.items)
       })
     }
-  }, [session, spotifyApi]);
+  }, [session, spotifyApi, showResults]);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -29,9 +32,39 @@ export default function Center() {
       spotifyApi.getArtists(trackIds).then((data) => {
         setTrackInfo(data.body.artists)
       })
+
+      let alltrackgenres: string[] = []
+      for (let i = 0; i < trackInfo.length; i++) {
+        for (let j = 0; j < trackInfo[i].genres.length; j++) {
+          alltrackgenres.push(trackInfo[i].genres[j])
+        }
+      }
+      setGenres(alltrackgenres)
+      let counts = alltrackgenres.reduce((counts, num) => {
+        counts[num] = (counts[num] || 0) + 1;
+        return counts;
+      }, {});
+
+      console.log(counts);
+
+      alltrackgenres.sort(function (p0, p1) {
+        return counts[p1] - counts[p0];
+      });
+
+      console.log(alltrackgenres);
     }
+
   }, [tracks]);
 
+  function calculateEmoji() {
+    //TODO create dictionary that maps the top genre in each top song category, and rank the dictionary
+
+    //TODO get top 3 and do a get request from prisma, pulling Description + image from the top 3 categories --> diplay that info
+
+    //TODO make it pretty
+  }
+
+  // TODO create css fade in and fade out transitions into seeing results
 
   return (
     <div className={styles.center}>
@@ -48,16 +81,19 @@ export default function Center() {
         </div>
       </div>
 
+      {!showResults ? <div className={styles.titlediv}>
+        <h1 className={styles.title}>What Emoji is Your Spotify?</h1>
+        <h2 className={styles.findoutbtn} onClick={() => setShowResults(s => !s)}>
+          Find Out
+        </h2>
+      </div> : null}
 
-
-      <div className={styles.tracklist}>
-        {trackInfo.map((track, index) => (
-          <p key={track.name + index} className={styles.track}> {track.name} <br />{track.genres.join(", ")}</p>
+      {showResults ? <h1>RESULTS</h1> : null}
+      {showResults ? <div className={styles.tracklist}>
+        {genres.map((track, index) => (
+          <p key={track + index} className={styles.track}> {track}</p>
         ))}
-      </div>
-
-      {/* <Image src={session?.user.picture} /> */}
+      </div> : null}
     </div >
   );
 }
-// export default Analyis;
