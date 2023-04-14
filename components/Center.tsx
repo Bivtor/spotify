@@ -40,7 +40,8 @@ export default function Center() {
         }
       }
       setGenres(alltrackgenres)
-      let counts = alltrackgenres.reduce((counts, num) => {
+
+      let count = alltrackgenres.reduce((counts, num) => {
         counts[num] = (counts[num] || 0) + 1;
         return counts;
       }, {});
