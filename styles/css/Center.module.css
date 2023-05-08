@@ -25,7 +25,7 @@
   width: 100px;
   height: 100px;
 }
-.center .titlediv {
+.center .titleBox {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -33,19 +33,18 @@
   font-family: inherit;
   margin-top: 50px;
 }
-.center .titlediv .title {
+.center .titleBox .title {
   font-family: inherit;
   text-align: center;
 }
-.center .titlediv .findoutbtn {
+.center .titleBox .findoutbtn {
   font-family: inherit;
-  font-size: 36px;
-  border: 2px solid blue;
-  color: red;
+  font-size: 30px;
+  text-align: center;
 }
-.center .titlediv findoutbtn:hover {
+.center .titleBox .findoutbtn :hover {
   cursor: pointer;
-  color: black;
+  color: red;
 }
 .center .tracklist {
   display: flex;
@@ -53,4 +52,14 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.center .analysisBox {
+  text-align: center;
+  position: relative;
+}
+.center .analysisBox span,
+.center .analysisBox analysisText {
+  font-size: 30px;
+  text-align: inherit;
+  color: rebeccapurple;
 }

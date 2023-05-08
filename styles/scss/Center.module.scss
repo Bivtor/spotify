@@ -31,34 +31,46 @@
       }
     }
   }
-  .titlediv {
+  .titleBox {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     font-family: inherit;
     margin-top: 50px;
+
     .title {
       font-family: inherit;
       text-align: center;
     }
+
     .findoutbtn {
       font-family: inherit;
-      font-size: 36px;
-      // text-align: center;
-      border: 2px solid blue;
-      color: red;
-    }
-    findoutbtn:hover {
-      cursor: pointer;
-      color: black;
+      font-size: 30px;
+      text-align: center;
+      :hover {
+        cursor: pointer;
+        color: red;
+      }
     }
   }
+
   .tracklist {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+
+  .analysisBox {
+    text-align: center;
+    position: relative;
+    span,
+    analysisText {
+      font-size: 30px;
+      text-align: inherit;
+      color: rebeccapurple;
+    }
   }
 }
