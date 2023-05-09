@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
 import Typed, { TypedOptions } from 'typed.js';
+import Ad1 from '../components/Ad1'
 
 export default function Center() {
   const [showResults, setShowResults] = useState<boolean>(false)
@@ -117,6 +118,9 @@ export default function Center() {
       <div className={styles.analysisBox}>
         <TypingEffect />
       </div>
+      {/* Ad Section */}
+      <Ad1></Ad1>
+
     </div >
   );
 }
