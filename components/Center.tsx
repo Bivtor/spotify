@@ -70,30 +70,67 @@ export default function Center() {
 
   }, [tracks, showResults]);
 
-  async function GPTAnalysis() {
-    setShowResults(!showResults)
-    await fetch('/api/openai', {
+
+  async function DBAdd(name: string, id: number, text: string) {
+    await fetch('/api/insertName', {
+      method: "POST",
+      body: JSON.stringify({ "name": name, "id": id, "text": text })
+    })
+  }
+
+  async function getDataGPT() {
+    const results = await fetch('/api/openai', {
       method: "POST",
       body: JSON.stringify(genres)
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-        else {
-          throw new Error('Network response was not ok.');
-        }
-      })
-      .then(data => {
-        setAnalysis(data)
-      })
+    const data = await results.json()
       .catch(error => {
         console.error('There was a problem fetching the data:', error);
       })
+    return data
+  }
 
-    //TODO create dictionary that maps the top genre in each top song category, and rank the dictionary
+  async function checkDB(username: String) {
+    //check if we have your spotify username in the DB
+    const response = await fetch('/api/checkName', {
+      method: "POST",
+      body: JSON.stringify(session?.user.name)
+    })
+    const data = await response.json()
+    return data
+  }
 
-    //TODO get top 3 and do a get request from prisma, pulling Description + image from the top 3 categories --> diplay that info
+  async function GPTAnalysis() {
+    console.log("pushed")
+
+    // handle TS name exception:
+    let incomingname = session?.user.name
+    if (session?.user.name == undefined) {
+      // this will always fail (probably) so we will fall into the gpt case 
+      incomingname = "123u4892e792487829473"
+    }
+
+    const result = await checkDB(incomingname!)
+    console.log(result)
+    // if we return FOUND (result[0] is true) then display the data from the previous analysis
+    let analysisData = ""
+    if (result.found) {
+      console.log("found name")
+      // Set the analysis to what we found
+      setAnalysis(result.text)
+    } else {
+      console.log("did not find name in db ")
+      // fetch analysis data from chatgpt (genres are the only input which are global here)
+      analysisData = await getDataGPT()
+      console.log(analysisData)
+      // add analysis to databse
+      await DBAdd(incomingname!, 12345, analysisData)
+      // set analysis
+      setAnalysis(analysisData)
+    }
+
+    // Finally show the results that we recieved from db or gpt
+    setShowResults(true)
   }
   return (
     <div className={styles.center}>
@@ -119,7 +156,7 @@ export default function Center() {
         <TypingEffect />
       </div>
       {/* Ad Section */}
-      <Ad1></Ad1>
+      {/* <Ad1></Ad1> */}
 
     </div >
   );

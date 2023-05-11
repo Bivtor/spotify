@@ -6,15 +6,11 @@ const Ad1 = (props) => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
-      console.log(err);
+      console.log("ERROR" + err);
     }
   }, []);
 
-  return (
-    <div className={styles.adBox}>
-      <ins className="adsbygoogle" data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} data-ad-slot="3355426429" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </div>
-  );
+  return <ins className={styles.ad} data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID} data-ad-slot="3355426429" data-ad-format="auto" data-full-width-responsive="true"></ins>;
 };
 
 export default Ad1;
