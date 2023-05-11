@@ -12,17 +12,12 @@ export default async function handler(
 
     try {
         const ds = JSON.parse(request.body)
-        const res = await client.query('INSERT INTO names (id, name, text) VALUES ($1, $2, $3)', [ds.id, ds.name, ds.text]);
+        const res = await client.query('INSERT INTO idmap (id, text) VALUES ($1, $2)', [ds.id, ds.text]);
         console.log(res.rowCount)
         return res.rowCount === 1;
-
-
     } catch (error) {
-        console.log("failed in insertName")
+        console.log("failed in DB insert function")
         console.log(error)
         return response.status(500).json({ error });
     }
-
-    // const Names = await client.sql`SELECT * FROM Names;`;
-    response.status(200).json("here is your respnse")
 }

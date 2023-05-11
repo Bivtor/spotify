@@ -1,7 +1,7 @@
 import { getProviders, signIn } from "next-auth/react";
 import styles from "../styles/css/Login.module.css";
 import Image from "next/image";
-import SPImage from "../public/images/SPImage.png";
+import SPImage from "../public/images/SPImage.png"; // Spotify Logo for login page
 
 function login({ providers }) {
   return (
@@ -12,10 +12,7 @@ function login({ providers }) {
 
       {Object.values(providers).map((provider) => (
         <div key={provider.name} className={styles.provider}>
-          <button
-            className={styles.button}
-            onClick={() => signIn(provider.id, { callbackUrl: "/" })}
-          >
+          <button className={styles.button} onClick={() => signIn(provider.id, { callbackUrl: "/" })}>
             Login with {provider.name}
           </button>
         </div>

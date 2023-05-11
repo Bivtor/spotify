@@ -4,7 +4,7 @@ import styles from "../styles/css/Center.module.css";
 import { signOut, useSession } from "next-auth/react";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
-import Typed, { TypedOptions } from 'typed.js';
+import TypingEffect from '../components/TypedComponent'
 import Ad1 from '../components/Ad1'
 
 export default function Center() {
@@ -23,28 +23,6 @@ export default function Center() {
       })
     }
   }, [session, spotifyApi]);
-
-  function TypingEffect() {
-    const typedRef = React.useRef(null);
-
-    useEffect(() => {
-      const typedOptions: TypedOptions = {
-        strings: [analysis],
-        typeSpeed: 30,
-        backSpeed: 30,
-        loop: false,
-      };
-
-      const typed = new Typed(typedRef.current, typedOptions);
-      return () => {
-        typed.destroy();
-      };
-    }, [analysis]);
-
-    return (
-      <span className={styles.analysisText} ref={typedRef}></span>
-    );
-  }
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -71,10 +49,10 @@ export default function Center() {
   }, [tracks, showResults]);
 
 
-  async function DBAdd(name: string, id: number, text: string) {
+  async function DBAdd(id: string, text: string) {
     await fetch('/api/insertName', {
       method: "POST",
-      body: JSON.stringify({ "name": name, "id": id, "text": text })
+      body: JSON.stringify({ "id": id, "text": text })
     })
   }
 
@@ -90,46 +68,44 @@ export default function Center() {
     return data
   }
 
-  async function checkDB(username: String) {
+  async function checkDB(userID: String) {
     //check if we have your spotify username in the DB
     const response = await fetch('/api/checkName', {
       method: "POST",
-      body: JSON.stringify(session?.user.name)
+      body: JSON.stringify(userID)
     })
     const data = await response.json()
     return data
   }
 
   async function GPTAnalysis() {
-    console.log("pushed")
+    if (showResults) return
 
-    // handle TS name exception:
-    let incomingname = session?.user.name
+    // Ensure ID is string
+    let incomingID = session?.user.id
     if (session?.user.name == undefined) {
       // this will always fail (probably) so we will fall into the gpt case 
-      incomingname = "123u4892e792487829473"
+      incomingID = "123u4892e792487132829473"
     }
 
-    const result = await checkDB(incomingname!)
-    console.log(result)
+    const result = await checkDB(incomingID!)
+
     // if we return FOUND (result[0] is true) then display the data from the previous analysis
     let analysisData = ""
     if (result.found) {
-      console.log("found name")
+      console.log("found name in db, returning old text")
       // Set the analysis to what we found
       setAnalysis(result.text)
+      setShowResults(true)
     } else {
-      console.log("did not find name in db ")
+      console.log("did not find name in db, getting new analysis")
       // fetch analysis data from chatgpt (genres are the only input which are global here)
       analysisData = await getDataGPT()
-      console.log(analysisData)
-      // add analysis to databse
-      await DBAdd(incomingname!, 12345, analysisData)
-      // set analysis
       setAnalysis(analysisData)
+      // add analysis to databse
+      await DBAdd(incomingID!, analysisData)
     }
-
-    // Finally show the results that we recieved from db or gpt
+    console.log(analysis)
     setShowResults(true)
   }
   return (
@@ -152,8 +128,10 @@ export default function Center() {
           Find Out
         </button>
       </div>
+      <br />
       <div className={styles.analysisBox}>
-        <TypingEffect />
+        {showResults ? <TypingEffect input={analysis} /> : null}
+
       </div>
       {/* Ad Section */}
       {/* <Ad1></Ad1> */}
