@@ -18,7 +18,7 @@ async function refreshAccessToken(token) {
       refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
-    console.log(error);
+    console.log("error in auth endpoint" + error);
 
     return {
       ...token,
@@ -33,7 +33,6 @@ export default NextAuth({
     SpotifyProvider({
       clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
       clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
-      secret: process.env.NEXT_PUBLIC_SECRET,
       authorization: LOGIN_URL,
     }),
   ],
